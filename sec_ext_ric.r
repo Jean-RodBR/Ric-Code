@@ -28,40 +28,13 @@ for(i in 1:n){
   
 }
 #------------------------------------------------------------------------------
-{
-  #separando por cada título
-  # session.save.titulo<-list()
-  # db.save<-c()
-  # for(j in 1:length(files)){
-  #   if(length( titulo_names[[j]]) > 0){ #indica que a cooperativa tem divisões por titulo
-  #       db.save <-  qdapRegex::rm_between(base2[j], "TÍTULO @t", "TÍTULO @t", extract=TRUE)
-  #       print(j)
-  #   }  
-  #  
-  #   session.save.titulo[[j]] <- data.frame(matrix(unlist(db.save), nrow=length(db.save), byrow=TRUE),stringsAsFactors=FALSE) %>% t()
-  #   db.save<-c()
-  # } 
-  #outra forma
-}
+#SEPARAÇÃO POR TITULO
 session.save.titulo<-list()
 for(j in 1:length(files)){
   session.save.titulo[[j]] <- stringr::str_split(base2[j], "TÍTULO @t") %>% unlist() %>% data.frame()
 }
 
-{
-  #separando por capitulo
-  # session.save.capitulo<-list()
-  # db.save<-c()
-  # for(j in 1:length(files)){
-  #   if(length( capitulo_names[[j]]) > 0){ #indica que a cooperativa tem divisões por titulo
-  #     db.save <-  qdapRegex::rm_between(base2[j], "CAPÍTULO @c", "CAPÍTULO @c", extract=TRUE)
-  #     print(j)
-  #   }  
-  #   #session.save.capitulo[[j]] <- db.save  %>% do.call(cbind,. ) %>%  as.data.frame()
-  #   session.save.capitulo[[j]] <- data.frame(matrix(unlist(db.save), nrow=length(db.save),byrow = TRUE),stringsAsFactors=FALSE) %>% t() #list to data.frame
-  #   db.save<-c()
-  # }
-}
+#SEPARAÇÃO POR CAPITULO
 session.save.capitulo<-list()
 for(j in 1:length(files)){
   session.save.capitulo[[j]] <- stringr::str_split(base2[j], "CAPÍTULO @c") %>% unlist() %>% data.frame()
@@ -76,7 +49,7 @@ rm(session.save.capitulo,session.save.titulo)
 #-------------
 # capturando os nomes das sessões e colocando em uma lista para futuro uso:
 #todo nome acaba antes de um art° de acordo com exemplo
-#Vou fazer o programa pegar do começo da string até o simbolo de $
+#Vou fazer o programa pegar do começo da string até o simbolo 
 save.sec_noms <- list()
 save.art_sep <- list()
 noms_sec <- c()
@@ -98,8 +71,8 @@ for(j in 1:m){
             noms_sec[i] <- x
            }
         }
-    save.sec_noms[[j]] <- noms_sec
-    save.art_sep[[j]] <- art_sep
+    save.sec_noms[[j]] <- noms_sec #separado por sessão
+    save.art_sep[[j]] <- art_sep #separação por artigos
     noms_sec <- c()
     art_sep <- c()
   }
