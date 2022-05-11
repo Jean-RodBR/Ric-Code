@@ -108,7 +108,7 @@ for(j in 1:m){
 save.sec_noms <- save.sec_noms %>% .[. != "NULL"]
 
 x <- save.sec_noms %>%  unlist() %>% unique() %>% data.frame() #colocando tudo em um data.frame depois dando unique
-
+#Agora pegar esse resultado, comparar manualmente (n sei outro jeito) e criar um sistema de classificação
 
 
 
