@@ -22,7 +22,7 @@ for(i in 1:n){
   base2[i] <- base2[i] %>% stringr::str_replace_all(.,"Art","Art @a")
   base2[i] <- base2[i] %>% stringr::str_replace_all(.,"ART","Art @a")
   
- 
+  
   titulo_names[[i]] <-  gsubfn::strapplyc(base2[i], "TÍTULO @t", simplify = TRUE)
   capitulo_names[[i]] <- gsubfn::strapplyc(base2[i], "CAPÍTULO @c", simplify = TRUE)
   
@@ -61,16 +61,16 @@ for(j in 1:m){
   cap_get <- db_cap_titulos[[2]][[j]] #1 titulos, 2 para capítulos
   n <- dim(cap_get)[1]
   if(n > 1){
-      for(i in 1:n){
-        art_sep[[i]] <-  cap_get[i,1] %>% stringr::str_split(.,"Art @a.") #separa por artigos
-        noms_sec[i]   <-  art_sep[[i]][[1]][1]
-          {#TIRANDO ESSES NUMEROS ROMANOS
-            x <- noms_sec[i] %>% stringr::str_extract_all(.,"\\w+") %>% unlist()
-            x <- x[-1]
-            x <- paste(x,collapse=" ")
-            noms_sec[i] <- x
-           }
-        }
+    for(i in 1:n){
+      art_sep[[i]] <-  cap_get[i,1] %>% stringr::str_split(.,"Art @a.") #separa por artigos
+      noms_sec[i]   <-  art_sep[[i]][[1]][1]
+      {#TIRANDO ESSES NUMEROS ROMANOS
+        x <- noms_sec[i] %>% stringr::str_extract_all(.,"\\w+") %>% unlist()
+        x <- x[-1]
+        x <- paste(x,collapse=" ")
+        noms_sec[i] <- x
+      }
+    }
     save.sec_noms[[j]] <- noms_sec #separado por sessão
     save.art_sep[[j]] <- art_sep #separação por artigos
     noms_sec <- c()
@@ -80,8 +80,19 @@ for(j in 1:m){
 #pegando elementos não nulos do resultado
 save.sec_noms <- save.sec_noms %>% .[. != "NULL"]
 
-x <- save.sec_noms %>%  unlist() %>% unique() %>% data.frame() #colocando tudo em um data.frame depois dando unique
+noms_change <- save.sec_noms %>%  unlist() %>% unique() %>% data.frame() #colocando tudo em um data.frame depois dando unique
 #Agora pegar esse resultado, comparar manualmente (n sei outro jeito) e criar um sistema de classificação
+
+rio::export(noms_change,"sec_noms_change.xlsx")
+
+#_______________________________________________________________________________
+sec_noms_change2 <- readxl::read_excel("sec_noms_change2.xlsx")
+sec_pure <- sec_noms_change2$Alterado %>% toupper() %>% unique()  %>% .[order(nchar(.), .)]
+rio::export(sec_pure,"add-cod.xlsx")
+#_______________________________________________________________________________
+
+
+
 
 
 
