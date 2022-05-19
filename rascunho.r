@@ -447,8 +447,14 @@ for(i in 1:dim(noms_change)[1]){
   #  data.frame(noms_change,noms_change2) %>% rio::export(.,"Noms-Sec.xlsx")  #exportando colocar as categorias manualmente
   # noms_change3 <- readxl::read_excel("Noms-Sec2.xlsx") %>% data.frame()#tabela já com as categorias
   
+    
+  x <-  do.call(rbind,save.merge)
+  x <- dplyr::arrange(x,CATEGORIA) 
+   
+  #  data.frame(noms_change,noms_change2) %>% rio::export(.,"Noms-Sec.xlsx")  #exportando colocar as categorias manualmente
+  # noms_change3 <- readxl::read_excel("Noms-Sec2.xlsx") %>% data.frame()#tabela já com as categorias
   
-
+  aux <- split(x, x$CATEGORIA)
    
 
     
