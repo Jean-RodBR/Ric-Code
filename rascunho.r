@@ -161,7 +161,7 @@ for(i in 1:dim(noms_change)[1]){
       aux <- stringr::str_detect(base3[j], noms_change2[i,1] %>% stringr::fixed())
       if(aux == TRUE){
         result[i] <-  noms_change2[i,1]
-        base3[j] <-  stringr::str_replace(base3[j],noms_change2[i,1], paste0("cat-",j,"/",i))
+        base3[j] <-  stringr::str_replace(base3[j],noms_change2[i,1], paste0("cat/",i))
         
       }
    }
@@ -171,13 +171,17 @@ for(i in 1:dim(noms_change)[1]){
 }
   
  #dividindo de acordo com as os nomes coletados
-  y <- base3[[1]] %>% stringr::str_extract_all(., "cat-\\d+/\\d+") %>% data.frame()
-  x <- base3[[1]] %>% stringr::str_split(., "cat-\\d+/\\d+") %>% data.frame()
-  View(x)
   
+  cat.capture <- list()
+  estatuto_separado <- list()
+  for(j in 1:length(base3)){
+    cat.capture[[j]] <- base3[[j]] %>% stringr::str_extract_all(., "cat/\\d+") %>% data.frame()
+    estatuto_separado[[j]] <- base3[[j]] %>% stringr::str_split(., "cat/\\d+") %>% data.frame()
+    }
   #Agora só preciso cortar base2 usando os dados de save.result
   #Lembrar de depois usar os cat-j-i para dividir por categorias
-  
+  x<-stringr::str_extract_all(cat.capture[[j]] %>% unlist(),"\\d+")  %>% do.call(rbind,.) %>% as.vector() %>% as.numeric()
+  cbind(noms_change2[x,1],x)
   
   
   
