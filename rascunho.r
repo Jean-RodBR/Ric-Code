@@ -1,3 +1,4 @@
+#COD 01-SEPARAR-JABR
 
 library(magrittr)
 
@@ -221,10 +222,11 @@ for(j in 1:length(base3)){
 
 x <-  do.call(rbind,save.merge)
 x <- dplyr::arrange(x,CATEGORIA) 
-aux <- split(x, x$CATEGORIA)
+sep_categoria <- split(x, x$CATEGORIA)
 
+for(i in 1:length(sep_categoria)){
+ rio::export(sep_categoria[[i]],paste0("ESTATUTOS_CAPITULOS_",sep_categoria[[i]][1,3],".xlsx"))
+}
 #  data.frame(noms_change,noms_change2) %>% rio::export(.,"Noms-Sec.xlsx")  #exportando colocar as categorias manualmente
 # noms_change3 <- readxl::read_excel("Noms-Sec2.xlsx") %>% data.frame()#tabela já com as categorias
-
-
 
